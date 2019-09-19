@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   }
   resource :user
   
+  post "move/:team_id/:user_id", to: "teams#move", as: "move"
   resources :teams do
     resources :assigns, only: %w(create destroy)
     resources :agendas, shallow: true do
