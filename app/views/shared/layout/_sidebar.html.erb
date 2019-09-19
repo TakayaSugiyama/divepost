@@ -33,7 +33,12 @@
             <a href="#" class="nav-link">
               <i class="fa fa-circle-o nav-icon"></i>
               <p>
-                <%= agenda.title %>
+                <div class = "row">
+                  <%= agenda.title %>
+                  <% if agenda.team.isOwnered?(current_user) %>
+                    <%= button_to "削除", "#", class: "btn btn-sm btn-light ml-3", data: {confirm: "#{agenda.title}を削除しますか?"}%>
+                  <% end %>
+                </div>
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
