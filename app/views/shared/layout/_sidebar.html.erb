@@ -30,18 +30,16 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <% @working_team.agendas.each do |agenda| %>
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
-              <i class="fa fa-circle-o nav-icon"></i>
-              <p>
-                <div class = "row">
+              <a href="#" class="nav-link">
+                <i class="fa fa-circle-o nav-icon"></i>
+                <p> 
                   <%= agenda.title %>
-                  <% if agenda.team.isOwnered?(current_user) %>
-                    <%= button_to "削除", "#", class: "btn btn-sm btn-light ml-3", data: {confirm: "#{agenda.title}を削除しますか?"}%>
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+                 <% if agenda.team.isOwnered?(current_user) %>
+                    <object><%= link_to "削除", agenda_path(agenda), method: :delete,class: "btn btn-sm btn-info ml-3", data: {confirm: "本当に削除しますか?"} %></object>
                   <% end %>
-                </div>
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
+              </a>
             <ul class="nav nav-treeview" style="display: block;">
               <% agenda.articles.each do |article| %>
                 <li class="nav-item">
