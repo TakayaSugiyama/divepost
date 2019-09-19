@@ -56,6 +56,7 @@ class TeamsController < ApplicationController
     @team = Team.find_by(id: params[:team_id])
     if @team.isOwnered?(current_user) 
        @team.update(owner_id: params[:user_id]) 
+       MoveMailer.move_mail(@team).deliver 
        redirect_to @team, notice: "権限を譲渡しました。"
     end
   end
