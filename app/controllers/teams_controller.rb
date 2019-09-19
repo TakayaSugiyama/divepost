@@ -15,7 +15,11 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+    unless @team.isOwnered?(current_user)
+      redirect_to @team, notice: 'チームの編集はチームのオーナーのみが可能です。'
+    end
+  end
 
   def create
     @team = Team.new(team_params)
@@ -45,6 +49,16 @@ class TeamsController < ApplicationController
 
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
+  end
+
+  # 権限移動の処理 
+  def move
+    @team = Team.find_by(id: params[:team_id])
+    if @team.isOwnered?(current_user) 
+       @team.update(owner_id: params[:user_id]) 
+       MoveMailer.move_mail(@team).deliver 
+       redirect_to @team, notice: "権限を譲渡しました。"
+    end
   end
 
   private
